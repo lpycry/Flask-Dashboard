@@ -1,0 +1,271 @@
+{% extends 'layout.html' %}
+{% block content %}
+ <div class="dashboard-main">
+    <div class="nav-top">
+        <h5 class="title-text"><a href="/">Shipping Dashboard</a> <span>|<a href="/admin"> Admin</a></span></h5>
+        <div class="nav-top-right">
+            <span id="loginEmail" >{{ email }}</span>
+            <span id="navSignout" >{{ signout|safe }}</span>
+        </div>
+    </div>
+    <div class="main-cards">
+        <div id="clock">
+            <p id="presentDate">12/09/2021 Thursday</p>
+            <p id="time">11:30:48</p>
+            <p id="weeks">Factory Weeks <span id="factory-weeks"></span></p>
+        </div>
+        <div class="package">
+            <div class="card-header">Total Packages Today </div>
+            <div id="packageChart"></div>
+            <div class="total-package">180</div>
+        </div>
+        <div class="delivery">
+            <div class="card-header">Completed Packages Today </div>
+            <div class="completed-packages">170</div>
+        </div>
+        <div class="incompleted-daily">
+            <div class="card-header">Daily Team incomplete</div>
+            <table>
+                <tr>
+                    <td>DN</td>
+                    <td>008520319</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>DN</td>
+                    <td>0085320319</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </div>
+        <div class="idealship-kpi">
+            <div class="card-header">Idealship KPI </div>
+            <div id="idealshipKpiChart"></div>
+            <div class="target">Target: 95%</div>
+        </div>
+    </div>
+    <div class="kpi-cards">
+        <div id="orderVolumeChart" class="order-volume" ></div>
+        <div id="workLoad" class="work-load"></div>
+        <div class="ontime-delivery">
+            <div class="card-header">OnTime Delivery KPI </div>
+            <div id="ontimeKpiChart"></div>
+            <div class="target">Target: 99.9%</div>
+        </div>
+        <div id="complaintChart" class="complaint-case"></div>
+        <div class="complaintList">
+             <table>
+                <tr>
+                    <th>Case/DN</th>
+                    <th>Date Received</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>85260934</td>
+                    <td>27/10/2021</td>
+                    <td>completed</td>
+                    <td>Customer order part NoBB-232-LPTT, but we Careated incorrect shipping label</td>
+                </tr>
+                <tr>
+                    <td>85260934</td>
+                    <td>27/10/2021</td>
+                    <td>completed</td>
+                    <td>Customer order part NoBB-232-LPTT, but we Careated incorrect shipping label</td>
+                </tr>
+                <tr>
+                    <td>85260934</td>
+                    <td>27/10/2021</td>
+                    <td>completed</td>
+                    <td>Customer order part NoBB-232-LPTT, but we Careated incorrect shipping label</td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="Packing-efficiency">
+            <div class="card-header">Packing Efficiency KPI </div>
+            <div id="efficiencyKpiChart"></div>
+            <div class="target">Target: 97%</div>
+        </div>
+    </div>
+ </div>
+<script type="text/javascript">
+    /* set the factory date, time and week*/
+$(window.onload=function(){
+    $(document).ready(function(){
+        todaydate= new Date();
+        console.log(todaydate);
+        var oneJan=new Date(todaydate.getFullYear(),0,1);
+        var numberOfDays= Math.floor(todaydate-oneJan)/(24*60*60*1000);
+        var result=Math.ceil((todaydate.getDay()+1+numberOfDays)/7);
+        var factoryWeek=document.getElementById("factory-weeks");
+        factoryWeek.innerHTML=result;
+        /* clock function including factory weeks*/
+    /* clock function including factory weeks*/
+        var clock = document.getElementById("clock");
+        var presentDate = document.getElementById("presentDate");
+        console.log(presentDate);
+        var time = document.getElementById("time");
+        var weeks = document.getElementById("weeks");
+        var week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var timerID = setInterval(updateTime, 1000);
+
+        if(presentDate != null){
+            updateTime();
+            }
+        function updateTime() {
+                var cd = new Date();
+                var presentDateinnerHTML = zeroPadding(cd.getMonth()+1,2)+'/'+zeroPadding(cd.getDate(),2) + '/'+ + cd.getFullYear() + '   ' +  week[cd.getDay()];
+                console.log(presentDateinnerHTML)
+                time.innerHTML = zeroPadding(cd.getHours(),2)+':'+zeroPadding(cd.getMinutes(),2)+':'+zeroPadding(cd.getSeconds(),2);
+            };
+        function zeroPadding(num, digit) {
+            var zero = '';
+            for(var i = 0; i < digit; i++) {
+                zero += '0';
+            }
+            return (zero + num).slice(-digit);
+        }
+
+    })
+})
+</script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart','gauge','bar','line']});
+    google.charts.setOnLoadCallback(drawChart);
+    // Draw the chart and set the chart values
+    function drawChart() {
+       // total package data
+      var packageData = google.visualization.arrayToDataTable([
+      ['string','packages'],
+      ['System',52],
+      ['Daily',122],
+        ]);
+      // idealship KPI data
+      var idealshipKpiData = google.visualization.arrayToDataTable([
+      ['Effort','percentage given'],
+      ['Result',82],
+        ]);
+      // order and packages volume data
+      var orderVolumeData = google.visualization.arrayToDataTable([
+      ['Month','Orders','packages'],
+      ['Jan',3844,10813],
+      ['Feb',3686,10450],
+      ['Mar',5112,14198],
+      ['Apr',4419,11200],
+      ['May',4052,10687],
+      ['Jun',4603,11335],
+      ['Jul',3940,11150],
+      ['Aug',4481,12552],
+      ['Sep',4479,11959],
+      ['Oct',4445,13808],
+      ['Nov',4145,11696],
+      ['Dec',0,0],
+      ]);
+      // daily and system workload hourly data
+      var workloadData = google.visualization.arrayToDataTable([
+      ['Hour','Daily','System'],
+      ['8:30',15,10],
+      ['9:30',15,10],
+      ['10:30',15,10],
+      ['11:30',19,11],
+      ['12:30',10,8],
+      ['1:30',5,2],
+      ['2:30',20,10],
+      ['3:30',25,10],
+      ['4:30',0,10],
+      ['5:30',0,1],
+
+      ]);
+      // customer complaint data
+      var complaintData = google.visualization.arrayToDataTable([
+      ['Month','complaint'],
+      ['Jan',0],
+      ['Feb',0],
+      ['Mar',0],
+      ['Apr',0],
+      ['May',0],
+      ['Jun',3],
+      ['Jul',1],
+      ['Aug',0],
+      ['Sep',0],
+      ['Oct',2],
+      ['Nov',4],
+      ]);
+      // on time delivery KPI data
+      var ontimeKpiData = google.visualization.arrayToDataTable([
+      ['Effort','percentage given'],
+      ['Result',99.6],
+        ]);
+     // packing efficiency KPI data
+      var efficiencyKpiData = google.visualization.arrayToDataTable([
+      ['Effort','percentage given'],
+      ['Result',95],
+        ]);
+
+      // draw total package charts
+      var packageOptions = {'width':280, 'height':210,'backgroundColor':'grey',pieHole:0.3,pieSliceTextStyle:{ color:'white', }};
+      var packageChart = new google.visualization.PieChart(document.getElementById('packageChart'));
+      packageChart.draw(packageData, packageOptions);
+
+
+
+      // draw idealship Kpi chart
+      var idealshipKpiOptions = {'width':220,'height':280,redFrom: 1, redTo: 95,greenFrom:95,greenTo:100,minorTicks:5,legend:'none'};
+      var idealshipKpiChart = new google.visualization.Gauge(document.getElementById('idealshipKpiChart'));
+      idealshipKpiChart.draw(idealshipKpiData,idealshipKpiOptions);
+
+      // draw order and package volume charts
+      var orderVolumeOption={
+        chart:{
+            title:'Order and package volume',
+        },
+        colors:['green','#ffffff'],
+        backgroundColor:'#202940',
+        chartArea:{backgroundColor:'#202940'},
+        vAxis:{title:'packages',textStyle:{color:'#f7f7f7'},},
+        hAxis:{title:'Month',textStyle:{color:'#f7f7f7'},}
+      };
+      var orderVolumeChart = new google.charts.Bar(document.getElementById('orderVolumeChart'));
+      orderVolumeChart.draw(orderVolumeData,google.charts.Bar.convertOptions(orderVolumeOption));
+
+     // daily and system workload hourly charts
+       var workloadOption={
+        title:'Packing Workload Hourly',
+        colors:['green','#ffffff'],
+        backgroundColor:'#202940',
+        chartArea:{backgroundColor:'#202940'},
+        vAxis:{title:'packages',textStyle:{color:'#f7f7f7'},},
+        hAxis:{title:'Hour',textStyle:{color:'#f7f7f7'},}
+      };
+      var workloadChart = new google.visualization.AreaChart(document.getElementById('workLoad'));
+      workloadChart.draw(workloadData,workloadOption);
+      // draw customer complaint chart
+       var complaintOption={
+        title:'Customer Complaints',
+        chart:{  title:'Customer Complaints',},
+        colors:['yellow'],
+        backgroundColor:'#202940',
+        chartArea:{backgroundColor:'#202940'},
+        vAxis:{title:'cases',textStyle:{color:'#f7f7f7'},},
+        hAxis:{title:'Month',textStyle:{color:'#f7f7f7'},},
+        legend:'none'
+      };
+      var complaintChart = new google.visualization.LineChart(document.getElementById('complaintChart'));
+      complaintChart.draw(complaintData,complaintOption);
+
+      /* var complaintChart = new google.charts.Bar(document.getElementById('complaintChart'));
+      complaintChart.draw(complaintData,google.charts.Bar.convertOptions(complaintOption)); */
+
+      // draw on time delivery Kpi chart
+      var ontimeKpiOptions = {'width':220,'height':280,redFrom: 1, redTo: 99,greenFrom:99,greenTo:100,minorTicks:5,legend:'none'};
+      var ontimeKpiChart = new google.visualization.Gauge(document.getElementById('ontimeKpiChart'));
+      ontimeKpiChart.draw(ontimeKpiData,ontimeKpiOptions);
+
+      // draw packing efficiency Kpi chart
+      var efficiencyKpiOptions = {'width':220,'height':280,redFrom: 1, redTo: 97,greenFrom:97,greenTo:100,minorTicks:5,legend:'none'};
+      var efficiencyKpiChart = new google.visualization.Gauge(document.getElementById('efficiencyKpiChart'));
+      efficiencyKpiChart.draw(efficiencyKpiData,efficiencyKpiOptions);
+    }
+</script>
+{% endblock%}

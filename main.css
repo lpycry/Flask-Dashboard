@@ -1,0 +1,492 @@
+*{
+margin:0;
+}
+body{
+/*background: #2C3E50;
+background: -webkit-linear-gradient(to right, #4CA1AF, #2C3E50);
+background: linear-gradient(to left, #4CA1AF, #2C3E50);
+background:#1a2035;*/
+background:#1A2035
+
+}
+/*for layout text color*/
+.nav-top{
+    height:30px;
+    line-heigh:30px;
+    color:white;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+}
+.title-text{
+    padding:2px 10px;
+}
+.title-text a{
+    color:white;
+    text-decoration:none;
+}
+.login-text{
+    display:absolute;
+    float:left;
+    color:white;
+    font-size:26px;
+    margin-top:200px;
+    margin-left:50px;
+}
+.login-form,.register-form{
+    display:absolute;
+    float:right;
+    margin-right:150px;
+    margin-top:200px;
+    height:300px;
+    width:300px;
+    background-color:white;
+    border-radius:5px;
+    padding:10px;
+
+}
+/* set register form format*/
+.register-form{
+    display:absolute;
+    float:right;
+    margin-right:150px;
+    margin-top:200px;
+    height:525px;
+    width:300px;
+    background-color:white;
+    border-radius:5px;
+    padding:10px;
+
+}
+/* set the input */
+.login-form .form-control,.register-form .form-control{
+    margin-bottom:10px;
+    height:30px;
+    width:285px;
+    line-height:30px;
+}
+/* set the login form button submit*/
+.login-form .form-btn,.register-form .form-btn{
+    cursor:pointer;
+    display:inline-block;
+    margin-top:28px;
+    height:42px;
+    width:297px;
+    background-color:#6495ED;
+    text-decoration:none;
+    color:#FFFFFF;
+    border:1px;
+    border-radius:2px;
+}
+.login-form .form-btn:hover,.register-form .form-btn:hover{
+    color:#FFBF00;
+}
+.login-form p,.register-form p{
+    font-size:16px;
+    margin-top:10px;
+}
+.login-form p a,.register-form p a{
+   text-decoration:none;
+}
+.dashboard-main{
+
+    background-color:#1a2035;
+    width:100%;
+    height:100%;
+    border-top:1px solid rgb(54, 80, 92);
+}
+
+.main-cards{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:100%;
+}
+#clock {
+    padding:20px 10px;
+    height:250px;
+    width:220px;
+    background:#202940;
+    font-family: "Share Tech Mono", monospace;
+    color: #ffffff;
+    text-align: center;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #0aafe6, 0 0 20px rgb(10 175 230 / 0%);
+ }
+ #presentDate{
+    margin-top:20px;
+    font-size:30px;
+ }
+ #time{
+    margin-top:10px;
+    font-size:50px;
+ }
+ #weeks{
+    margin-top:40px;
+    font-size:20px;
+    line-height:20px;
+ }
+ #factory-weeks{
+    font-size:30px;
+ }
+
+ .package,.delivery,.incompleted-daily,.idealship-kpi{
+    margin-top:20px;
+    padding:20px 10px;
+    height:230px;
+    width:280px;
+    background:#1d2e40;
+    border-radius:4px;
+ }
+ .package{
+    position:relative;
+ }
+ .card-header{
+    color:#f7f7f7;
+    margin-bottom:5px;
+}
+*.package .total-package{
+    position:absolute;
+    font-size:60px;
+    color:#f7f7f7;
+    left:180px;
+    bottom:30px;
+}
+*.delivery .completed-packages{
+    height:210px;
+    width:280px;
+    color:#70ef70;
+    font-size:80px;
+    text-align:center;
+    line-height:210px;
+}
+*.incompleted-daily .card-header{
+    border-bottom:1px solid;
+}
+.incompleted-daily table{
+    padding-left:10px;
+    color:#eb0a0a;
+    overflow:scroll;
+}
+#idealshipKpi,#ontimeKpiChart,#efficiencyKpiChart {
+    margin-left:20px;
+    height:210px;
+    width:280px;
+    color:#70ef70;
+    font-size:80px;
+    text-align:center;
+    line-height:210px;
+}
+.idealship-kpi,.kpi-cards{
+    position:relative;
+}
+.idealship-kpi .target,.ontime-delivery .target,.Packing-efficiency .target{
+    position:absolute;
+    font-size:20px;
+    color:#f7f7f7;
+    left:70px;
+    bottom:1px;
+
+}
+#orderVolumeChart,#complaintChart{
+    margin-top:20px;
+    margin-left:2px;
+    background:#202940;
+    width:800px;
+    height:280px;
+}
+.work-load-main{
+    display:relative;
+}
+/* daily and system packing hourly workload */
+.work-load{
+    position:absolute;
+    color:#f7f7f7;
+    top:0px;
+    left:820px;
+    width:680px;
+    height:280px;
+    overflow:hidden;
+ }
+/*.workload-btn {
+    display:float;
+    border-radius: 29px;
+    background: linear-gradient(145deg, #99aab4, #818f97);
+    box-shadow:  8px 8px 18px #727f86,
+                 -8px -8px 18px #acbfca;
+                 }
+*/
+
+/* create customer complaint chart and case list status */
+#complaintChart{
+    margin-top:20px;
+    margin-left:2px;
+    background:#202940;
+    width:800px;
+    height:280px;
+}
+#complaintChart text,#workLoad text{
+    fill:white !important;
+}
+
+.complaintList table{
+    position:absolute;
+    border-collapse:collapse;
+    padding-left:10px;
+    color:#f7f7f7;
+    top:300px;
+    left:820px;
+    width:680px;
+    height:280px;
+    overflow:scroll;
+    border:1px solid rgba(255,255,255,0.5);
+}
+.complaintList th{
+    background:#D5E0CC;
+    color:black;
+}
+.complaintList th,.complaintList td{
+    margin:0;
+    padding:0;
+    border:1px solid rgba(255,255,255,0.5);
+}
+.ontime-delivery{
+    background:#1d2e40;
+    height:280px;
+    position:absolute;
+    z-index:1;
+    right:0;
+    top:0;
+    color:white;
+    border-radius:4px;
+}
+.Packing-efficiency{
+    background:#1d2e40;
+    height:280px;
+    position:absolute;
+    z-index:1;
+    right:0;
+    top:300px;
+    color:white;
+    border-radius:4px;
+}
+.ontime-delivery .card-header,.Packing-efficiency .card-header{
+    margin-top: 20px;
+    margin-left:10px;
+}
+/* admin table management dashboard */
+.edit-topbar{
+    position:relative;
+ }
+
+ .edit-menu .edit-menu-header{
+    color:white;
+    display:block;
+    height:20px;
+    width:150px;
+    padding:5px;
+    margin-left:5px;
+    background:#3f4964;
+    text-align:center;
+    line-height:20px;
+ }
+.edit-data .menu-li{
+    list-style:none;
+    background:#202940;
+    height:50px;
+    width:150px;
+    padding:5px;
+    color:white;
+    text-align:center;
+    line-height:50px;
+    user-select: none;
+    margin-left:-35px;
+}
+/* set line height of th A so that user can click any where on the tab to link */
+.edit-data .menu-li a{
+
+    display:block;
+}
+
+/* set the authorization section style*/
+.edit-admin .admin-li{
+    list-style:none;
+    background:#202940;
+    height:50px;
+    width:150px;
+    padding:5px;
+    color:white;
+    text-align:center;
+    line-height:50px;
+    user-select: none;
+    margin-left:-35px;
+}
+.edit-menu .menu-li:hover,.edit-admin .admin-li{
+    cursor: pointer;
+    background:rgba(68,80,115,0.5);
+    border:1px solid rgba(100,120,150,0.5);
+}
+/* set up edit content style*/
+ .edit-content{
+    position:absolute;
+    top:32px;
+    left:180px;
+    height:500px;
+    width:1200px;
+    /*background:white;*/
+
+ }
+ #tableName{
+    float:left;
+  }
+ #createData{
+    float:right;
+ }
+ .edit-data .menu-li a{
+    color:white;
+    text-decoration:none;
+ }
+
+ /*set up complaint ,kpitype form css*/
+.complaint-form,.kpitype-form{
+    width:100%;
+    padding:20px;
+    background:#fff;
+    box-shadow:0 2px 5px #ccc;
+}
+.complaint-form h1,.kpitype-form h1{
+    text-align:center;
+
+}
+.complaint-form input,.complaint-form select,.kpitype-form input{
+    width:25%;
+    margin-bottom:5px;
+    border:1px solid #ccc;
+    border-radius:3px;
+}
+.complaint-form input,.kpitype-form input {
+      padding: 5px;
+      }
+.complaint-form input:hover,.complaint-form textarea:hover,.complaint-form select:hover,.kpitype-form textarea:hover,.kpitype-form input:hover {
+      outline: none;
+      border: 1px solid #095484;
+      }
+.complaint-form select {
+      padding: 7px 0;
+      background: transparent;
+      }
+/* set textarea to float*/
+.complaint-form .description,.complaint-form .rootCause,.complaint-form .actions{
+    float:left;
+    margin:10px 0;
+    margin-right:10px;
+}
+.complaint-form textarea {
+      margin-bottom: 5px;
+      }
+
+.complaint-form input[name="clear"],.kpitype-form input[name="clear"]{
+    background-image: linear-gradient(to bottom, #4a4646, #191717);
+    border: 1px solid #191717;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), inset 0 -1px 4px rgb(151 159 175 / 20%);
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px 40px;
+    /*background:#7bfb69;*/
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none !important;
+    vertical-align: middle;
+    cursor:pointer;
+    margin-left:300px;
+}
+.complaint-form input[name="submit"],.kpitype-form input[name="submit"]{
+    background-image: linear-gradient(to bottom, #0073b1, #075b8c);
+    border: 1px solid #075b8c;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), inset 0 -1px 4px rgb(151 159 175 / 20%);
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px 40px;
+    /*background:#7bfb69;*/
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none !important;
+    vertical-align: middle;
+    cursor:pointer;
+}
+ /*set up complaint table css*/
+ .complaint-table,.kpitype-table{
+      width:1240px;
+      border-collapse:collapse;
+      margin-top:5px;
+      padding:20px;
+ }
+  .complaint-table tr:nth-of-type(odd),.kpitype-table tr:nth-of-type(odd){
+    background:#eee;
+    opacity:0.8;
+ }
+ .complaint-table tr:nth-of-type(even),.kpitype-table tr:nth-of-type(even){
+    background:#eee;
+ }
+  .complaint-table th,.kpitype-table th {
+	background: #3498db;
+	color: white;
+	font-weight: bold;
+	}
+
+ .complaint-table td, th,.kpitype-table td, th {
+	padding: 10px;
+	border: 1px solid #ccc;
+	text-align: left;
+	font-size: 18px;
+	}
+ .complaint-table .complaint-table-edit{
+    background-image: linear-gradient(to bottom, #2bbe60, #0f9d58);
+    border: 1px solid #0f9d58;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), inset 0 -1px 4px rgb(151 159 175 / 20%);
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px 20px;
+    /*background:#7bfb69;*/
+    width:80px;
+    padding:10px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #39424e;
+    text-align: center;
+    text-decoration: none !important;
+    vertical-align: middle;
+    cursor:pointer;
+ }
+  .complaint-table .kpitype-table-delete,.kpitype-table .kpitype-table-delete{
+    background-image: linear-gradient(to bottom, #dd4e41, #c9453a);
+    border: 1px solid #c9453a;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), inset 0 -1px 4px rgb(151 159 175 / 20%);
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 10px 20px;
+    /*background:#7bfb69;*/
+    width:80px;
+    margin-left:5px;
+    padding:10px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none !important;
+    vertical-align: middle;
+    cursor:pointer;
+ }
+/*
+.complaint-table tr:hover{
+    opacity:0.7;
+}
+*/

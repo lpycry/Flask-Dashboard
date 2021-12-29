@@ -1,0 +1,129 @@
+{% extends 'admin.html' %}
+{% block admin %}
+
+    <form class="kpitype-form" name="kpitypeForm" onsubmit="return validatekpitypeForm()"action="{{ url_for('kpitypeData')}}" method="POST">
+        <h1> Shipping Receiving Department KPI type</h1>
+        <h4>Please enter the KPI type for every year </h4>
+        <br>
+        <label for="kpiid">KPI id</label>
+             <input type="text" id="kpiid" name="kpiid">
+        <label for="kpiname">Name</label>
+            <input type="text" id="kpiname" name="kpiname">
+        <label for="year">KPI Year</label>
+            <input type="text" id="kpiyear" name="kpiyear">
+        <br>
+        <label for="target">Target</label>
+            <input type="text" id="kpitarget" name="kpitarget">
+        <div class="description">
+            <p>Description</p>
+            <textarea name="description" rows="4" cols="50" placeholder="Enter description"></textarea>
+        </div>
+        <br>
+        <input type="button" onclick="clearkpitypeForm()" name="clear" value="Clear Form">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <table class="kpitype-table">
+        <thead>
+            <tr>
+                <th>KPI id</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Target</th>
+                <th>Description</th>
+                <th> Options</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in result%}
+            <tr>
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td>{{item[2]}}</td>
+                <td>{{item[3]}}</td>
+                <td style="width:200px">{{item[4]}}</td>
+                <td style="width:170px"><button class="kpitype-table-edit" type="button">Edit</button> <button class="kpitype-table-delete" type="button">Delete</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+<script type="text/javascript">
+/*clean form input data*/
+;
+    function clearComplaintForm(){
+       $("[name=caseNo]").val("");
+       $("[name=dateReceived]").val("");
+       $("[name=status]").val("");
+       $("[name=description]").val("");
+       $("[name=rootCause]").val("");
+       $("[name=actions]").val("");
+    }
+    /* clear shipping kiptype form*/
+    function clearkpitypeForm(){
+       $("[name=kpiid]").val("");
+       $("[name=kpiname]").val("");
+       $("[name=kpiyear]").val("");
+       $("[name=kpitarget]").val("");
+       $("[name=description]").val("");
+    }
+
+/* get the caseNo and delete the record*/
+$(".complaint-table-delete").click(function(){
+    let caseNo = ($(this).parents("tr").children(':first-child').text());
+    if (caseNo !=null) {
+        if(confirm("Are you sure to delete " + caseNo +" ?")){
+        $(this).parents("tr").remove();
+        /* ajax send delete request to Flask*/
+        $.ajax({
+            type:'POST',
+            url:"/deleteComplaint",
+            data:{caseNo:caseNo},
+            dataType:"text",
+            success: function(data){
+                console.log(data);
+            }
+        })
+        /* clear the form*/
+        clearComplaintForm();
+       }
+    }
+})
+/* Put the selected table data to the form for editing, but the case/DN can not edit */
+$(".complaint-table-edit").click(function(){
+/* add logic to control adding elements twice */
+   if ($(this).text()==="Edit"){
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").css("background-color", "yellow");
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>in progress</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>completed</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>pending</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>received</option>');
+       $(this).text("Update");
+   }
+   else if ($(this).text()==="Update"){
+        let caseNo = $(this).parents("tr").children(":first-child").text();
+        let updateStatus=$(this).parents("tr").children(":nth-child(3)").children(":first-child").val();
+        /* update the status in database using ajax*/
+        $.ajax({
+            type:'POST',
+            url:'/updateComplaint',
+            data:{caseNo:caseNo,status:updateStatus},
+            dataType:'text',
+            success:function(data){
+            }
+        });
+        /* update button to Edit*/
+        $(this).text("Edit");
+        $(this).parents("tr").children(":nth-child(3)").children(":first-child").css("background-color", "#fff");
+        /* remove the extra option element from select*/
+        let select_items = $(this).parents("tr").children(":nth-child(3)");
+        $(select_items).find('option').each(function(){
+            if($(this).val()!=updateStatus){
+                $(this).remove();}
+        });
+   }
+})
+</script>
+
+{% endblock %}

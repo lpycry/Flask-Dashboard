@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div><h3 class="login-text">Shipping Automation Idealship</h3></div>
+<form class="register-form" name ="registerForm" onsubmit="return validateRForm()" action="{{ url_for('registerSubmit')}}" method="post">
+    <h4 style="text-align:center;"> Register to Shipping Receiving Dashboard</h4>
+    <br>
+    <label class="form-text">First Name:</label><br>
+    <input class="form-control" type="text" name="firstname"></br>
+    <label class="form-text">Last name:</label><br>
+    <input class="form-control" type="text" name="lastname"><br>
+    <label class="form-text">E-Mail:</label><br>
+    <input class="form-control" type="email" name="email"><br>
+    <label class="form-text">Password:</label><br>
+    <input class="form-control" type="password" name="pwd" id="registerPwd"><br>
+    <label class="form-text">Confirm Password:</label><br>
+    <input class="form-control" type="password" name ="confirmPwd" id="registerCpwd"><br>
+    <input class="form-btn" type="submit" value="Register" id="registerBtn" onclick="registerPwdCheck()">
+    <p>Already a user?   <a href="{{url_for('login')}}">Login</a> </p>
+</form>
+{% endblock %}

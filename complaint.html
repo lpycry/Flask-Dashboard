@@ -1,0 +1,157 @@
+{% extends 'admin.html' %}
+{% block admin %}
+
+    <form class="complaint-form" name="complaintForm" onsubmit="return validateComplaintForm()"action="{{ url_for('complaintData')}}" method="POST">
+        <h1> Customer Complaint</h1>
+        <h4>Please enter the customer complaint, when you receive it from external or internal </h4>
+        <br>
+        <label for="caseNo">Case/DN</label>
+             <input type="text" id="caseNo" name="caseNo">
+        <label for="dateReceived">Date</label>
+            <input type="date" id="dateReceived" name="dateReceived">
+        <label for="complaintStatus">Case Status</label>
+        <select id="complaintStatus" name="status">
+            <option value="received">received</option>
+            <option value="progress">in progress</option>
+            <option value="completed">completed</option>
+            <option value="pending">pending</option>
+        </select>
+        <div class="description">
+            <p>Description</p>
+            <textarea name="description" rows="4" cols="50" placeholder="Enter description"></textarea>
+        </div>
+        <div class="rootCause">
+            <p>Root of Cause</p>
+            <textarea name="rootCause" rows="4" cols="50" placeholder="Enter root of cause"></textarea>
+        </div>
+        <div class="actions">
+            <p>Actions</p>
+            <textarea name="actions" rows="4" cols="39" placeholder="Enter actions will be taken"></textarea>
+        </div>
+            <br>
+        <input type="button" onclick="clearComplaintForm()" name="clear" value="Clear Form">
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <table class="complaint-table">
+        <thead>
+            <tr>
+                <th> Case/DN</th>
+                <th> Date</th>
+                <th> Case Status</th>
+                <th> Description</th>
+                <th> Root of Cause</th>
+                <th> Actions</th>
+                <th> Options</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in result%}
+            <tr>
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td>
+                    <select id="complaintTabStatus" style="width:100%;">
+                       <option >{{item[2]}}</option>
+                    </select>
+                </td>
+                <td style="width:200px">{{item[3]}}</td>
+                <td style="width:200px">{{item[4]}}</td>
+                <td style="width:200px">{{item[5]}}</td>
+                <td style="width:170px"><button class="complaint-table-edit" type="button">Edit</button> <button class="complaint-table-delete" type="button">Delete</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+<script type="text/javascript">
+/*clean form input data*/
+    function clearComplaintForm(){
+       $("[name=caseNo]").val("");
+       $("[name=dateReceived]").val("");
+       $("[name=status]").val("");
+       $("[name=description]").val("");
+       $("[name=rootCause]").val("");
+       $("[name=actions]").val("");
+    }
+/* get the caseNo and delete the record*/
+$(".complaint-table-delete").click(function(){
+    let caseNo = ($(this).parents("tr").children(':first-child').text());
+    if (caseNo !=null) {
+        if(confirm("Are you sure to delete " + caseNo +" ?")){
+        $(this).parents("tr").remove();
+        /* ajax send delete request to Flask*/
+        $.ajax({
+            type:'POST',
+            url:"/deleteComplaint",
+            data:{caseNo:caseNo},
+            dataType:"text",
+            success: function(data){
+                console.log(data);
+            }
+        })
+        /* clear the form*/
+        clearComplaintForm();
+       }
+    }
+})
+/* Put the selected table data to the form for editing, but the case/DN can not edit */
+$(".complaint-table-edit").click(function(){
+/* add logic to control adding elements twice */
+   if ($(this).text()==="Edit"){
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").css("background-color", "yellow");
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>in progress</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>completed</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>pending</option>');
+       $(this).parents("tr").children(":nth-child(3)").children(":first-child").append('<option>received</option>');
+       $(this).text("Update");
+   }
+   else if ($(this).text()==="Update"){
+        let caseNo = $(this).parents("tr").children(":first-child").text();
+        let updateStatus=$(this).parents("tr").children(":nth-child(3)").children(":first-child").val();
+        /* update the status in database using ajax*/
+        $.ajax({
+            type:'POST',
+            url:'/updateComplaint',
+            data:{caseNo:caseNo,status:updateStatus},
+            dataType:'text',
+            success:function(data){
+            }
+        });
+        /* update button to Edit*/
+        $(this).text("Edit");
+        $(this).parents("tr").children(":nth-child(3)").children(":first-child").css("background-color", "#fff");
+        /* remove the extra option element from select*/
+        let select_items = $(this).parents("tr").children(":nth-child(3)");
+        $(select_items).find('option').each(function(){
+            if($(this).val()!=updateStatus){
+                $(this).remove();}
+        });
+   }
+
+
+  /*  $("#complaintTabStatus").append('<option>in progress</option>');
+    $("#complaintTabStatus").append('<option>completed</option>');
+    $("#complaintTabStatus").append('<option>pending</option>');
+    $("#complaintTabStatus").append('<option>received</option>'); */
+
+/*1. get the select complaint record
+    let caseNo = $(this).parents("tr").children(":first-child").text();
+    let dateReceived =$(this).parents("tr").children(":nth-child(2)").text();
+    let status = $(this).parents("tr").children(":nth-child(3)").text();
+    let description =$(this).parents("tr").children(":nth-child(4)").text();
+    let rootCause=$(this).parents("tr").children(":nth-child(5)").text();
+    let actions=$(this).parents("tr").children(":nth-child(6)").text();
+2. put the data to fill out the form
+   $("[name=caseNo]").val(caseNo);
+   $("[name=dateReceived]").val(dateReceived);
+   $("[name=status]").val(status);
+   $("[name=description]").val(description);
+   $("[name=rootCause]").val(rootCause);
+   $("[name=actions]").val(actions);
+*/
+})
+</script>
+
+{% endblock %}

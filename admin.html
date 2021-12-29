@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="admin-container">
+  <div class="edit-menu">
+    <div class="edit-topbar"></div>
+    <div class="side-menu">
+      <h3 class="edit-menu-header">Administrator</h3>
+      <ul class="edit-data">
+        <li class="complaint menu-li"><a href="{{ url_for('complaint')}}">Customer Complaint</a></li>
+        <li class="shipkpitype menu-li"><a href="{{ url_for('kpitype')}}"> Ship KPI Type</a></li>
+        <li class="shipkpi menu-li">KPI</li>
+        <li class="order-volume menu-li">Order Volume</li>
+      </ul>
+      <ul class="edit-admin">
+        <li class="authrization admin-li">Authrization</li>
+        </li>
+      </ul>
+    </div>
+    <div class="edit-content">
+        {% block admin %}
+        {% endblock%}
+    </div>
+  </div>
+
+</div>
+<script>
+  /* function for maintain data*/
+function showCreateBox(item){
+    alert(item);
+}
+</script>
+{% endblock %}

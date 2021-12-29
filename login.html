@@ -1,0 +1,21 @@
+
+{% extends 'layout.html' %}
+{% block content %}
+<div class="nav-top">
+    <h3 class="title-text"><a href="/">Shipping Dashboard</a> </h3>
+</div>>
+<div class="login-container">
+
+    <h3>{{ msg }}</h3>
+    <div><h3 class="login-text">Shipping Automation Idealship</h3></div>
+    <form  class="login-form" name="loginForm" onsubmit="return validateLForm()" action="{{ url_for('dashboard')}}" method="post">
+        <br>
+        <label class="form-text">E-Mail:</label><br>
+        <input class="form-control" type="email" name="email"><br>
+        <label class="form-text">Password:</label> <br>
+        <input class="form-control" type="password" name="pwd"><br>
+        <input class="form-btn" type="submit" value="Login">
+        <p>Not registered? <a href="{{url_for('register')}}">Register</a> </p>
+    </form>
+</div>
+{% endblock %}
